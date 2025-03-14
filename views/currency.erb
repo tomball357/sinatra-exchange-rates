@@ -1,0 +1,12 @@
+<h1>Convert <%= currency %></h1>
+
+<ul>
+  <% currencies.each_key do |other_currency| %>
+    <% next if other_currency == currency %>
+    <li>
+      <a href="/<%= currency %>/<%= other_currency %>">Convert 1 <%= currency %> to <%= other_currency %>...</a>
+    </li>
+  <% end %>
+</ul>
+
+<a href="/">Back</a>

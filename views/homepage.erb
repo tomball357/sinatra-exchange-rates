@@ -1,0 +1,11 @@
+<h1>Currency pairs</h1>
+
+<ul>
+  <% currencies.each_key do |currency| %>
+    <li>
+      <a href="/<%= currency %>"><%= currency %></a>
+    </li>
+  <% end %>
+</ul>
+
+
