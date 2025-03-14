@@ -10,12 +10,14 @@ API_KEY = ENV['exchange_key']
 
 # Fetch currency list once and store it to minimize API calls
 def fetch_currencies
-  response = HTTParty.get("#{BASE_URL}/list")
+  response = HTTParty.get("#{BASE_URL}/list", query: { access_key: API_KEY })
+
   if response.success?
     data = JSON.parse(response.body)
     return data["currencies"] || {}  # Extract currency symbols
   else
-    return {}  # Fallback in case of an error
+    puts "Error fetching currencies: #{response.code}"
+    return {}
   end
 end
 
@@ -40,7 +42,7 @@ get '/:from_currency/:to_currency' do
 
   halt 404 unless CURRENCIES.key?(from_currency) && CURRENCIES.key?(to_currency)
 
-  response = HTTParty.get("#{BASE_URL}/convert", query: { from: from_currency, to: to_currency, amount: 1 })
+  response = HTTParty.get("#{BASE_URL}/convert", query: { access_key: API_KEY, from: from_currency, to: to_currency, amount: 1 })
   
   if response.success?
     data = JSON.parse(response.body)
